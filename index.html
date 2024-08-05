@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Break Views Sample</title>
+
+    <link href="./styles.css" rel="stylesheet">
+
+    <script src="./hoops/hoops-web-viewer-monolith.iife.js"></script>
+    <script src="./main.js"></script>
+
+    <script src="./break_views/ModelBreakManager.js"></script>
+    <script src="./break_views/BreakTool.js"></script>
+    <script src="./break_views/third_party/csg.js"></script>
+    <script src="./break_views/MeasureBreakViewOp.js"></script>
+
+</head>
+<body>
+    <p id="description">
+        Create a "model break view" from a model. This uses a "ModelBreakManager" sample and <a href="https://github.com/evanw/csg.js" target="_blank">csg.js</a> to perform boolean operations on the tessellated Communicator model.
+        <ol>
+            <li> Select an axis to create a break view along using the drop down.</li>
+            <li>Position the "break" planes at the desired cut locations (the section of the model between the break planes will be hidden).</li>
+            <li>Click "break" to create a break view.</li>
+            <li>The break view ID is added to the web page. Click the "Reset" button to restore the model or a view ID to restore a specific break view.</li>
+        </ol>
+    </p>
+    <div id="viewer"></div>
+    <div id="uiElements">
+        <div id="modelBreakUI">
+            <label for="breakPlanes">Break Along:</label>
+            <select name="breakPlanes" id="modelBreakPlane">
+                <option value="noBreak">None</option>
+                <option value="xPlane">X Axis</option>
+                <option value="yPlane">Y Axis</option>
+                <option value="zPlane">Z Axis</option>
+            </select>
+            <label for="showFacesCheckbox">Show Break Faces</label>
+            <input type="checkbox" id="showFacesCheckbox" name="showFacesCheckbox"/>
+            <button id="modelBreakBtn" class="appBtn">Break Model</button>
+            <button id="resetBtn" class="appBtn">Reset</button>
+            <button id="measureBtn" class="appBtn">Measure</button>
+            <button id="loadMultipleBtn" class="appBtn">Load More Models</button>
+            <div id="loadingDiv">
+                <img src="./img/spinner.gif" width="25px" /><p style="display: inline; padding-left: 10px;">Loading break view</p>
+            </div>
+        </div>
+    </div>
+    <div id="savedViews"></div>
+
+    <script>
+        let hwv;
+        window.onload = () => {
+            hwv = new Communicator.WebViewer({
+                containerId: "viewer",
+                empty: true
+            });
+
+            hwv.setCallbacks({
+                modelStructureReady: () => {
+                    modelBreakViewDemo();
+                },
+                deprecated: (className, functionName) => {
+                    alert("Warning: " + className + "." + functionName + " is deprecated!");
+                }
+
+            })
+
+            hwv.start();
+        }
+
+        window.onresize = () => {
+            hwv.resizeCanvas();
+        }
+
+    </script>
+</body>
+</html>
