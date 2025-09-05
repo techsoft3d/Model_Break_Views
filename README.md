@@ -1,5 +1,5 @@
 # Model Break Views Sample
-This sample demonstrates usage of the ModelBreakManager library which enables the creation of model break views in a HOOPS Communicator web viewer.  
+This sample demonstrates usage of the ModelBreakManager library which enables the creation of model break views in a HOOPS Visualize (formerly HOOPS Communicator) web viewer.  
 Please see `./break_views/README.md` for details.
 
 ### Setup
